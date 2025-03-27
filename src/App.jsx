@@ -33,19 +33,33 @@ function App() {
     { title: 'Pulp Fiction', genre: 'Thriller' },
   ]
   const [genre, setGenre] = useState('default')
-  const [filteredList, setFilteredList] = useState(movies)
+/*   const [newList, setNewList] = useState(movies)
+ */  const [filteredList, setFilteredList] = useState(movies)
+  console.log('questi sono i film' + movies);
+
+
   console.log(genre);
-  /*   useEffect(()=>{
-      let newList;
-      if(genre === 'default'){
-        newList = 
-      }
-    },[]) */
+
+  useEffect(() => {
+    if (genre !== 'default') {
+      setFilteredList(movies.filter(movie => movie.genre === genre))
+    } else {
+      setFilteredList(movies)
+    }
+
+
+
+  }, [genre])
+  const handleChange = (e) => {
+    setGenre(e.target.value)
+  }
+  console.log(filteredList);
 
   return (
     <>
-      <select onChange={(e) => { setGenre(e.target.value) }} className='my-16 mx-8 p-4 rounded-lg border border-stone-300 w-[30%]'  >
-        <option name="" id="" disabled>Scegli un genere</option>
+      <select defaultValue={'default'} onChange={(e) => { setGenre(e.target.value) }} className='my-16 mx-8 p-4 rounded-lg border border-stone-300 w-[30%]'  >
+        <option name="Tutti" id="Tutti" value={'default'} >Tutti</option>
+
         <option name="Fantascienza" id="Fantascienza" value={'Fantascienza'} >Fantascienza</option>
         <option name="Thriller" value={'Thriller'} id="Thriller" >Thriller</option>
         <option name="Romantico" value={'Romantico'} id="Romantico" >Romantico</option>
