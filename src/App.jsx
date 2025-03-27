@@ -36,6 +36,21 @@ function App() {
 /*   const [newList, setNewList] = useState(movies)
  */  const [filteredList, setFilteredList] = useState(movies)
   const [search, setSearch] = useState('')
+  const [newTitle, setNewTitle] = useState('')
+  const [newGenre, setNewGenre] = useState('')
+
+  const handleNewTitleChange = (e) => {
+    setNewTitle(e.target.value)
+  }
+  const handleNewGenreChange = (e) => {
+    setNewGenre(e.target.value)
+  }
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    setFilteredList([...filteredList, { id: movies.length + 1, title: newTitle, genre: newGenre }])
+    setNewGenre('')
+    setNewTitle('')
+  }
 
   useEffect(() => {
     if (genre !== 'default') {
@@ -47,9 +62,7 @@ function App() {
 
 
   }, [genre])
-  const handleChange = (e) => {
-    setGenre(e.target.value)
-  }
+
   console.log(filteredList);
 
   const handleSearchChange = (e) => {
@@ -75,6 +88,8 @@ function App() {
 
   return (
     <>
+
+
       <input type="text" onChange={handleSearchChange} name="search" id="search" placeholder='Search here...' className='w-[50%] m-auto mt-4 p-2 border border-stone-300 rounded-xl block' />
       <select defaultValue={'default'} onChange={(e) => { setGenre(e.target.value) }} className='my-16 mx-8 p-4 rounded-lg border border-stone-300 w-[30%]'  >
         <option name="Tutti" id="Tutti" value={'default'} >Tutti</option>
@@ -95,7 +110,14 @@ function App() {
           </div>
         ))}
 
+
       </div>
+      <form onSubmit={handleSubmit} className='flex flex-col w-[50%] m-auto  mt-12 gap-4'>
+        <h2 className='text-center text-lg font-semibold mb-4'>Aggiungi un nuovo film</h2>
+        <input onChange={handleNewTitleChange} value={newTitle} className='p-2 border border-stone-300 rounded-lg mb-4 ' type="text" name="addTitle" id="addTitle" placeholder='Scrivi il titolo...' />
+        <input onChange={handleNewGenreChange} value={newGenre} className='p-2 border border-stone-300 rounded-lg mb-4 ' type="text" name="addGenre" id="addGenre" placeholder='Scrivi il genere...' />
+        <button className='bg-blue-500 text-white rounded-lg p-2' type="submit">Aggiungi</button>
+      </form>
     </>
   )
 }
