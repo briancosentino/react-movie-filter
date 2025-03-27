@@ -35,10 +35,7 @@ function App() {
   const [genre, setGenre] = useState('default')
 /*   const [newList, setNewList] = useState(movies)
  */  const [filteredList, setFilteredList] = useState(movies)
-  console.log('questi sono i film' + movies);
-
-
-  console.log(genre);
+  const [search, setSearch] = useState('')
 
   useEffect(() => {
     if (genre !== 'default') {
@@ -55,8 +52,30 @@ function App() {
   }
   console.log(filteredList);
 
+  const handleSearchChange = (e) => {
+    setSearch(e.target.value)
+
+
+
+
+  }
+  console.log(search);
+  useEffect(() => {
+    if (search.length > 0) {
+      console.log(search.length);
+
+
+      setFilteredList(movies.filter(movie => movie.title.toLowerCase().includes(search.toLowerCase())))
+    } else {
+
+      setFilteredList(movies)
+    }
+
+  }, [search])
+
   return (
     <>
+      <input type="text" onChange={handleSearchChange} name="search" id="search" placeholder='Search here...' className='w-[50%] m-auto mt-4 p-2 border border-stone-300 rounded-xl block' />
       <select defaultValue={'default'} onChange={(e) => { setGenre(e.target.value) }} className='my-16 mx-8 p-4 rounded-lg border border-stone-300 w-[30%]'  >
         <option name="Tutti" id="Tutti" value={'default'} >Tutti</option>
 
@@ -68,7 +87,7 @@ function App() {
 
 
       </select>
-      <div className='flex flex-wrap gap-4'>
+      <div className='flex mx-4 flex-wrap gap-4'>
         {filteredList.map((movie, idx) => (
           <div key={idx} id="card" className='border border-stone-300 rounded-lg p-4'>
             <h2 className='font-semibold text-xl mb-4'>{movie.title}</h2>
